@@ -30,15 +30,11 @@ public class CryptScoutModel {
 	JButton confirmBtn, saveImageBtn;
 	JTextField textField;
 
-	//Model Specific
 
 
 	public CryptScoutModel() {
 		initFrameGUI();
 		initCryptPanel();
-		
-		//printStressTest(40);
-		
 		frame.pack();
 		
 		
@@ -46,16 +42,15 @@ public class CryptScoutModel {
 
 	private void initFrameGUI(){
 		frame = new JFrame("ScoutCrypt");
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setLayout(new GridLayout(2,10,1,1));
-		frame.setVisible(true);
+	
 		
 		initTopPanel();
+		frame.setVisible(true);
 	}
 	
 	private void initCryptPanel() {
-		
-		
-
 		cryptPanel = new JPanel();
 		cryptPanel.setLayout(new FlowLayout());
 		cryptPanel.setVisible(true);
@@ -68,7 +63,7 @@ public class CryptScoutModel {
 	private void initTopPanel(){
 		mainPanel = new JPanel();
 		
-		textField = new JTextField("Type what text to crypt", 3);		//Adding the text field
+		textField = new JTextField("", 3);		//Adding the text field
 		textField.setColumns(15);
 		mainPanel.add(textField);
 		
@@ -77,6 +72,7 @@ public class CryptScoutModel {
 		confirmBtn.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				printSymbols( textField.getText() );
+				frame.pack();
 				
 			}
 		});
@@ -109,7 +105,6 @@ public class CryptScoutModel {
 		}else{
 			System.out.println("You must add text to convert.");
 		}
-		frame.pack();
 		
 	}
 
