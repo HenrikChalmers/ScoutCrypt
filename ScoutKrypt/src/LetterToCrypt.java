@@ -1,4 +1,5 @@
 import java.awt.AWTException;
+import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.Rectangle;
@@ -22,32 +23,36 @@ import javax.swing.plaf.SliderUI;
  * @author Henrik Johansson	
  * @version 2014-03-07
  */
-public class CryptScoutModel {
+public class LetterToCrypt extends JFrame {
 	//GUI specific
-
-	JFrame frame;
 	JPanel mainPanel, cryptPanel;
 	JButton confirmBtn, saveImageBtn;
 	JTextField textField;
+	
+	//Model Specific
+	private static LetterToCrypt instance = null;
 
-
-
-	public CryptScoutModel() {
-		initFrameGUI();
+	private LetterToCrypt(Component c) {
+		initFrameGUI(c);
 		initCryptPanel();
-		frame.pack();
-		
-		
+		pack();
+	}
+	
+	public static LetterToCrypt getInstance(Component c){
+		if(instance == null){
+			instance = new LetterToCrypt(c);
+		} else if(instance.isVisible() == false){
+			//instance.setVisible(true);
+		}
+		return instance;
 	}
 
-	private void initFrameGUI(){
-		frame = new JFrame("ScoutCrypt");
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setLayout(new GridLayout(2,10,1,1));
-	
-		
+	private void initFrameGUI(Component c){
+		new JFrame("Encrypt");
+		setLayout(new GridLayout(2,10,1,1));
+		setLocationRelativeTo(c);
+		setLocation(c.getX() + c.getWidth(), c.getY());
 		initTopPanel();
-		frame.setVisible(true);
 	}
 	
 	private void initCryptPanel() {
@@ -55,8 +60,8 @@ public class CryptScoutModel {
 		cryptPanel.setLayout(new FlowLayout());
 		cryptPanel.setVisible(true);
 		
-		frame.add(mainPanel);
-		frame.add(cryptPanel);
+		add(mainPanel);
+		add(cryptPanel);
 
 	}
 	
@@ -71,8 +76,9 @@ public class CryptScoutModel {
 		confirmBtn = new JButton("Crypt");
 		confirmBtn.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
-				printSymbols( textField.getText() );
-				frame.pack();
+				String tempString = textField.getText().replace(" ","_");
+				printSymbols( tempString );
+				pack();
 				
 			}
 		});
@@ -109,7 +115,7 @@ public class CryptScoutModel {
 	}
 
 	private JLabel returnSpecialSymbol(String letter) {
-		return new JLabel(new ImageIcon("images/" + letter + ".jpg"));
+		return new JLabel(new ImageIcon("changeLetterSymbol/" + letter + ".jpg"));
 	}
 		
 	private void saveCryptAsImage(){
