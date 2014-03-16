@@ -33,6 +33,7 @@ public class LetterToCrypt extends JFrame {
 	private static LetterToCrypt instance = null;
 
 	private LetterToCrypt(Component c) {
+		super("Encrypt");
 		initFrameGUI(c);
 		initCryptPanel();
 		pack();
@@ -48,7 +49,6 @@ public class LetterToCrypt extends JFrame {
 	}
 
 	private void initFrameGUI(Component c){
-		new JFrame("Encrypt");
 		setLayout(new GridLayout(2,10,1,1));
 		setLocationRelativeTo(c);
 		setLocation(c.getX() + c.getWidth(), c.getY());

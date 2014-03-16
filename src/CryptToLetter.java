@@ -20,6 +20,7 @@ public class CryptToLetter extends JFrame {
 	private TextArea decryptedTextArea;
 	
 	private CryptToLetter(Component c) {
+		super("Decrypt");
 		initFrameGUI(c);
 		initTopPanel();
 		add(topPanel, BorderLayout.PAGE_START);
@@ -36,7 +37,7 @@ public class CryptToLetter extends JFrame {
 	}
 
 	private void initFrameGUI(Component c) {
-		new JFrame("Decrypt");
+		
 		setLayout(new BorderLayout());
 		setLocation(c.getX() + c.getWidth(), c.getY());
 		initTopPanel();
@@ -62,6 +63,7 @@ public class CryptToLetter extends JFrame {
 		for(int i = 0; i < letters.length; i++){
 			JButton tempButton = new JButton(new ImageIcon("changeLetterSymbol/" + letters[i] + ".jpg") );
 			final String tempString = ""+letters[i];
+			tempButton.setToolTipText(""+tempString);
 			tempButton.addActionListener(new ActionListener(){
 				public void actionPerformed(ActionEvent e){
 					String tempText = decryptedTextArea.getText();
