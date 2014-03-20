@@ -51,7 +51,7 @@ public class GridCrypt extends JFrame {
 	 * @param c the frame from "main" program.
 	 */
 	private GridCrypt(Component c) {
-		super("Decrypt");
+		super("GridCrypt");
 		gridCryptFrameInit();
 		pack();
 		keyOk = false;
