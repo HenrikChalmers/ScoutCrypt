@@ -7,6 +7,11 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 
+/**
+ * Controlls the workflow of the entire program.
+ * @author Henrik Johansson
+ * @version 2014-03-20
+ */
 public class WindowWhatToDo {
 	JFrame frame;
 	LetterToCrypt crypt;
@@ -23,12 +28,18 @@ public class WindowWhatToDo {
 		
 		
 	}
+	/**
+	 * Initializes all the other windows.
+	 */
 	private void initData(){
 		crypt = LetterToCrypt.getInstance(frame);
 		decrypt = CryptToLetter.getInstance(frame);
 		gridCrypt = GridCrypt.getInstance(frame);
 	}
 	
+	/**
+	 * Initializes the starting frame.
+	 */
 	private void initFrame(){
 		frame = new JFrame("Equmenia Fristad Crypting Tool");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -36,6 +47,9 @@ public class WindowWhatToDo {
 		
 	}
 	
+	/**
+	 * Initializes the panels.
+	 */
 	private void initPanels(){
 		JPanel mainPanel = new JPanel();
 		mainPanel.setLayout(new FlowLayout() );
@@ -43,6 +57,10 @@ public class WindowWhatToDo {
 		frame.add(mainPanel);
 	}
 	
+	/**
+	 * Initializes the buttons in the main menu.
+	 * @param mainPanel the panel where to store the buttons.
+	 */
 	private void initButtons(JPanel mainPanel){
 		JButton letterToCryptButton = new JButton("Encrypt: Letter to Symbol");
 		letterToCryptButton.addActionListener(new ActionListener(){
@@ -70,6 +88,9 @@ public class WindowWhatToDo {
 		mainPanel.add(gridCryptButton);
 	}
 	
+	/**
+	 * Shows the letterToCrypted window, and makes the other invisible.
+	 */
 	private void startLetterToCrypted(){
 		if(decrypt.isVisible()){
 			decrypt.setVisible(false);
@@ -80,6 +101,9 @@ public class WindowWhatToDo {
 		crypt.setVisible(true);
 	}
 	
+	/**
+	 * Shows the cryptedToLetter window, and makes the other invisible.
+	 */
 	private void startCryptedToLetter(){
 		if(crypt.isVisible()){
 			crypt.setVisible(false);
@@ -91,6 +115,9 @@ public class WindowWhatToDo {
 		
 	}
 	
+	/**
+	 * Shows the gridCrypt window, and makes the other invisible.
+	 */
 	private void startGridCrypt(){
 		if(crypt.isVisible()){
 			crypt.setVisible(false);

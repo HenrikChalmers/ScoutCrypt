@@ -20,6 +20,7 @@ import javax.swing.JTextField;
 import javax.swing.plaf.SliderUI;
 
 /**
+ * Allows the user to convert a full string to crypted symbols and save them.
  * @author Henrik Johansson	
  * @version 2014-03-07
  */
@@ -48,6 +49,10 @@ public class LetterToCrypt extends JFrame {
 		return instance;
 	}
 
+	/**
+	 * Initializes the frame.
+	 * @param c the "main" frame.
+	 */
 	private void initFrameGUI(Component c){
 		setLayout(new GridLayout(2,10,1,1));
 		setLocationRelativeTo(c);
@@ -55,6 +60,9 @@ public class LetterToCrypt extends JFrame {
 		initTopPanel();
 	}
 	
+	/**
+	 * Initializes the crypt panel.
+	 */
 	private void initCryptPanel() {
 		cryptPanel = new JPanel();
 		cryptPanel.setLayout(new FlowLayout());
@@ -65,6 +73,9 @@ public class LetterToCrypt extends JFrame {
 
 	}
 	
+	/**
+	 * Initializes the top panel-
+	 */
 	private void initTopPanel(){
 		mainPanel = new JPanel();
 		
@@ -101,6 +112,10 @@ public class LetterToCrypt extends JFrame {
 		
 	}
 	
+	/**
+	 * Prints all the letters in the string as crypted symbols. 
+	 * @param stringToConvert the string that is to be converted.
+	 */
 	private void printSymbols(String stringToConvert){
 		cryptPanel.removeAll();
 		if(!stringToConvert.equalsIgnoreCase("")){
@@ -114,10 +129,18 @@ public class LetterToCrypt extends JFrame {
 		
 	}
 
+	/**
+	 * Enter a letter and its symbol will be returned.
+	 * @param letter the letter that wants to be turned into a symbol-
+	 * @return a symbol as a JLabel.
+	 */
 	private JLabel returnSpecialSymbol(String letter) {
 		return new JLabel(new ImageIcon("changeLetterSymbol/" + letter + ".jpg"));
 	}
 		
+	/**
+	 * Saves the entire crypt as an image.
+	 */
 	private void saveCryptAsImage(){
 		try {
 			File file = new File("savedCrypts/crypt.png");

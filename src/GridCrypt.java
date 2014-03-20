@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeSet;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -15,6 +16,21 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+/**
+ * This shows the "grid crypting", wich is a crypt where a key is split into capital letters as x coordinate 
+ * and small letters is the y coordinate. The alphabet is then placed inside the grid, for example:	
+ *   S C O U T
+ * s a b c d e
+ * c f g h i j
+ * o k l m n o
+ * u p q r s t 
+ * t u v w x y
+ * 
+ * Ss = a, Cs = b etc..
+ * 
+ * @author Henrik Johansson
+ * @version 2014-03-20
+ */
 public class GridCrypt extends JFrame {
 	private String cryptKey;
 	private HashMap<String, String> letterToSymbol, symbolToLetter;
@@ -30,6 +46,10 @@ public class GridCrypt extends JFrame {
 		return instance;
 	}
 
+	/**
+	 * Takes the "main" frame as parameter to know where to position this new frame.
+	 * @param c the frame from "main" program.
+	 */
 	private GridCrypt(Component c) {
 		super("Decrypt");
 		gridCryptFrameInit();
@@ -38,12 +58,19 @@ public class GridCrypt extends JFrame {
 		arrayOk = false;
 	}
 
-	public void askForKey() {
-		String tempString = JOptionPane.showInputDialog(null, "Type in encrypting key", "Type in crypting key", JOptionPane.QUESTION_MESSAGE);
+	/**
+	 * Asks the user for a crypting key. Checks if it is ok, both with length and makes sure there are no double letters.
+	 */
+	public void askForKey() {	
+		String tempString = JOptionPane.showInputDialog(null, "Type in encrypting key, preferable over 6 letters.\n(Otherwise not all letters will be available)", "Type in crypting key", JOptionPane.QUESTION_MESSAGE);
 
 		if (tempString != null) {
-			while (tempString.length() > 20) {
-				JOptionPane.showMessageDialog(null, "To long key,  enter a shorter (Less than 20 char)", "title", JOptionPane.ERROR_MESSAGE);
+			while (tempString.length() > 10 || !doubleLettersCheckOk(tempString)) {
+				if(tempString.length()> 10){
+					JOptionPane.showMessageDialog(null, "To long key,  enter a shorter (Less than 10 characters)", "ERROR: to long", JOptionPane.ERROR_MESSAGE);
+				}else if(!doubleLettersCheckOk(tempString)){
+					JOptionPane.showMessageDialog(null, "Not valid key, cannot contain letter duplicates.", "ERROR: not valid key", JOptionPane.ERROR_MESSAGE);
+				}
 				tempString = JOptionPane.showInputDialog(null, "Type in encrypting key", "Type in crypting key", JOptionPane.QUESTION_MESSAGE);
 				if (tempString == null) {
 					break;
@@ -57,9 +84,10 @@ public class GridCrypt extends JFrame {
 			setUpGUIArray(getKeyArray(cryptKey));
 			pack();
 		}
-
+		
+		//Fixes symbolToLetter map 
 		//********************************************************************************
-		symbolToLetter = new HashMap<String, String>(); //Fixes symbolToLetter map 
+		symbolToLetter = new HashMap<String, String>(); 
 		String alphabet = "abcdefghijklmnopqrstuvwxyzåäö ";
 		char[] alphabetCharArray = alphabet.toCharArray();
 		char[] bigLetters, smallLetters;
@@ -76,8 +104,9 @@ public class GridCrypt extends JFrame {
 		}
 		//********************************************************************************
 
+		//Fixes letterToSymbol map
 		//********************************************************************************
-		letterToSymbol = new HashMap<String, String>(); //Fixes letterToSymbol map
+		letterToSymbol = new HashMap<String, String>(); 
 		for (Map.Entry<String, String> entry : symbolToLetter.entrySet()) {
 			String tempKeyString = entry.getKey();
 			String tempValueString = entry.getValue();
@@ -86,16 +115,38 @@ public class GridCrypt extends JFrame {
 		//********************************************************************************
 
 	}
+	
+	/**
+	 * Checks if a string contains duplicate letters, if so the n it will return false;
+	 * @param s the string that needs to be checked.
+	 * @return true if the string is OK,  false ow.
+	 */
+	private boolean doubleLettersCheckOk(String s){
+		char[] tempCharArray = s.toCharArray();
+		TreeSet<String> tempTree = new TreeSet<String>();
+		for(char ch: tempCharArray){
+			if(tempTree.contains(""+ch)){
+				return false;
+			}
+			tempTree.add(""+ch);
+		}
+		return true;
+	}
 
+	/**
+	 * Initializes the frame and the panels.
+	 */
 	private void gridCryptFrameInit() {
 		setLayout(new BorderLayout());
 		topPanel();
 		centerPanel();
 	}
 
+	/**
+	 * Initializes the top panel.
+	 */
 	private void topPanel() {
 		topPanel = new JPanel();
-		//topPanel.setBackground(Color.red);
 		topPanel.setLayout(new GridLayout(2, 2, 1, 1));
 
 		plainText = new JTextField();
@@ -124,11 +175,19 @@ public class GridCrypt extends JFrame {
 		add(topPanel, BorderLayout.NORTH);
 	}
 
+	/**
+	 * Initializes the centerPanel.
+	 */
 	private void centerPanel() {
 		centerPanel = new JPanel();
 		add(centerPanel, BorderLayout.CENTER);
 	}
 
+	/**
+	 * Sets up the key array using a user provided key.
+	 * @param inKey the key that the user has provided.
+	 * @return a keyArray
+	 */
 	private String[][] getKeyArray(String inKey) {
 		if (keyOk) {
 			String alphabet = "abcdefghijklmnopqrstuvwxyzåäö_";
@@ -150,6 +209,10 @@ public class GridCrypt extends JFrame {
 		return null;
 	}
 
+	/**
+	 * Sets up the GUI for the grid array.
+	 * @param inKeyArray the key array.
+	 */
 	private void setUpGUIArray(String inKeyArray[][]) {
 		System.out.println("setUpGUIArray initialized");
 		System.out.println(cryptKey);
@@ -175,6 +238,11 @@ public class GridCrypt extends JFrame {
 		centerPanel.add(arrayPanel, c);
 	}
 
+	/**
+	 * Sets up the capital and small letters around the letter grid.
+	 * @param c the constraints for the buttons.
+	 * @param buttonSize the size of the previous buttons.
+	 */
 	private void fixAreaAroundGrid(GridBagConstraints c, Dimension buttonSize) {
 		char[] splittedTempCapital = cryptKey.toUpperCase().toCharArray();
 		char[] splittedTempLower = cryptKey.toLowerCase().toCharArray();
@@ -205,6 +273,11 @@ public class GridCrypt extends JFrame {
 
 	}
 
+	/**
+	 * The action that is performed when you click at the convertToCoded button.
+	 * @param messageToConvert the message that is to be converted.
+	 * @param textField the textfield that is to be changed after conversion.
+	 */
 	private void convertToCodedButton(String messageToConvert, JTextField textField) {
 		char[] tempCharArray = messageToConvert.toCharArray();
 		StringBuilder sb = new StringBuilder();
@@ -214,6 +287,11 @@ public class GridCrypt extends JFrame {
 		textField.setText(sb.toString());
 	}
 
+	/**
+	 * The action performed when you click at the convertFromCoded button.
+	 * @param messageToConvert the message that is tobe converted.
+	 * @param textField the textfield that is to be changed after conversion.
+	 */
 	private void convertFromCoded(String messageToConvert, JTextField textField) {
 		String[] splittedMessage = messageToConvert.split(" ");
 

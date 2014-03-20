@@ -14,6 +14,11 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+/**
+ * Shows a "keyboard" with the symbols, this is used to decrypt messages.
+ * @author Henrik Johansson
+ * @version 2014-03-20
+ */
 public class CryptToLetter extends JFrame {
 	private static CryptToLetter instance = null;
 	private JPanel topPanel, decryptPanel;
@@ -36,6 +41,10 @@ public class CryptToLetter extends JFrame {
 		return instance;
 	}
 
+	/**
+	 * Sets the initial frame for te CryptToLetter GUI
+	 * @param c the main frame from "main" starting program.
+	 */
 	private void initFrameGUI(Component c) {
 		
 		setLayout(new BorderLayout());
@@ -43,6 +52,9 @@ public class CryptToLetter extends JFrame {
 		initTopPanel();
 	}
 	
+	/**
+	 * Initialises the top panel, the frame is split in two parts. (This is the top part hurrdurr)
+	 */
 	private void initTopPanel() {
 		topPanel = new JPanel();
 		topPanel.setLayout(new FlowLayout());
@@ -51,12 +63,18 @@ public class CryptToLetter extends JFrame {
 		topPanel.add(decryptedTextArea);
 	}
 
+	/**
+	 * Initialises the decrypt panel, wich is the lower one in the frame.
+	 */
 	private void initDecryptPanel() {
 		decryptPanel = new JPanel();
 		decryptPanel.setLayout(new FlowLayout() );
 		initDecryptButtons();
 	}
 
+	/**
+	 * Initialises the buttons that is needed for the decryption, also known as the "keyboard".
+	 */
 	private void initDecryptButtons() {
 		
 		final char[] letters = "abcdefghijklmnopqrstuvwxyzåäö".toCharArray();
